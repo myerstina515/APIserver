@@ -7,6 +7,8 @@ const morgan = require('morgan');
 require('./models/client');
 const mongoose = require('mongoose');
 const Client = mongoose.model('client');
+app.use(cors());
+app.use(morgan('dev'));
 
 // middleware
 const errorHandler = require('../error-handlers/500.js');
@@ -14,27 +16,29 @@ const notFound = require('../error-handlers/404.js');
 const apiRoutes = require('./routes/apiRoutes.js');
 const logger = require('./middleware/logger.js');
 
-app.use(cors());
-app.use(morgan('dev'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(function (req, res, next) {
+// app.use(function (req, res, next) {
 
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+//   res.setHeader('Access-Control-Allow-Credentials', true);
 
-  next();
-});
+//   next();
+// });
+var corsOptions = {
+  origin: ['localhost:3000', 'https://tt-api-server.herokuapp.com/'],
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
 
 // app.get('/', (req, res) => {
 //   console.log('routes connected');
 // })
-app.use('/client', apiRoutes);
+app.use('/client', cors(corsOptions), apiRoutes);
 
 app.use(logger);
 app.use('*', notFound);
