@@ -29,9 +29,15 @@ app.use(express.urlencoded({ extended: true }));
 
 //   next();
 // });
+const whitelist = ['localhost:3000', 'https://tt-api-server.herokuapp.com/']
 var corsOptions = {
-  origin: ['localhost:3000', 'https://tt-api-server.herokuapp.com/'],
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
 }
 
 
