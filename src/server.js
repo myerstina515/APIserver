@@ -30,22 +30,32 @@ app.use(express.urlencoded({ extended: true }));
 
 //   next();
 // });
-const whitelist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com']
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
+// const whitelist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com']
+// var corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   }
+// }
+var allowlist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com']
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (allowlist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
   }
+  callback(null, corsOptions) // callback expects two parameters: error and options
 }
 
 
 // app.get('/', (req, res) => {
 //   console.log('routes connected');
 // })
-app.use('/client', cors(corsOptions), apiRoutes);
+app.use('/client', cors(corsOptionsDelegate), apiRoutes);
 
 app.use(logger);
 app.use('*', notFound);
