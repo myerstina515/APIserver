@@ -2,13 +2,13 @@
 
 const express = require('express');
 const app = express();
-const cors = require('cors');
+// const cors = require('cors');
 const morgan = require('morgan');
 require('./models/client');
 const mongoose = require('mongoose');
 const Client = mongoose.model('client');
 
-app.use(cors());
+// app.use(cors());
 app.use(morgan('dev'));
 
 // middleware
@@ -40,23 +40,23 @@ app.use(express.urlencoded({ extended: true }));
 //     }
 //   }
 // }
-var allowlist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com']
-var corsOptionsDelegate = function (req, callback) {
-  var corsOptions;
-  if (allowlist.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
-  } else {
-    corsOptions = { origin: false } // disable CORS for this request
-  }
-  callback(null, corsOptions) // callback expects two parameters: error and options
-}
+// var allowlist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com']
+// var corsOptionsDelegate = function (req, callback) {
+//   var corsOptions;
+//   if (allowlist.indexOf(req.header('Origin')) !== -1) {
+//     corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+//   } else {
+//     corsOptions = { origin: false } // disable CORS for this request
+//   }
+//   callback(null, corsOptions) // callback expects two parameters: error and options
+// }
 
 
 // app.get('/', (req, res) => {
 //   console.log('routes connected');
 // })
-app.use('/client', cors(corsOptionsDelegate), apiRoutes);
-
+app.use('/client', apiRoutes);
+//cors(corsOptionsDelegate), 
 app.use(logger);
 app.use('*', notFound);
 app.use(errorHandler);

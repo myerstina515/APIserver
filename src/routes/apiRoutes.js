@@ -1,21 +1,32 @@
 'use strict';
 
 const express = require('express');
+const cors = require('cors');
 const router = express.Router();
 const Collection = require('../models/dataCollection');
 const client = new Collection();
 // console.log('made it to the routes page');
 // console.log('this is the collection', Collection);
 // console.log('this is the client', client);
+app.use(cors());
 
-
+var allowlist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com']
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (allowlist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
+}
 console.log('Made it to API routes page!');
 
-router.get('/', handleGetAll);
-router.get('/:id', handleGetOne);
-router.post('/', handleAdd);
-router.put('/:id', handleUpdate);
-router.delete('/:id', handleDelete);
+router.get('/', cors(corsOptionsDelegate), handleGetAll);
+router.get('/:id', cors(corsOptionsDelegate), handleGetOne);
+router.post('/', cors(corsOptionsDelegate), handleAdd);
+router.put('/:id', cors(corsOptionsDelegate), handleUpdate);
+router.delete('/:id', cors(corsOptionsDelegate), handleDelete);
 
 async function handleGetAll(req, res) {
   console.log('made it in the get all function');
