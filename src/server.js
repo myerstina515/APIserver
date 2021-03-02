@@ -7,6 +7,7 @@ const morgan = require('morgan');
 require('./models/client');
 const mongoose = require('mongoose');
 const Client = mongoose.model('client');
+
 app.use(cors());
 app.use(morgan('dev'));
 
@@ -29,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //   next();
 // });
-const whitelist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com', '*']
+const whitelist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com/']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
