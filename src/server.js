@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //   next();
 // });
-const whitelist = ['localhost:3000', 'https://tt-api-server.herokuapp.com/']
+const whitelist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com', '*']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
