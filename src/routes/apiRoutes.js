@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const app = express();
 const cors = require('cors');
 const router = express.Router();
 const Collection = require('../models/dataCollection');
@@ -10,9 +11,18 @@ const client = new Collection();
 // console.log('this is the client', client);
 app.use(cors());
 
-var allowlist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com']
-var corsOptionsDelegate = function (req, callback) {
-  var corsOptions;
+app.use(function (req, res, next) {
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+
+  next();
+});
+const allowlist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com']
+const corsOptionsDelegate = function (req, callback) {
+  let corsOptions;
   if (allowlist.indexOf(req.header('Origin')) !== -1) {
     corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
   } else {
