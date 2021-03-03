@@ -1,35 +1,35 @@
 'use strict';
 
 const express = require('express');
-const app = express();
-const cors = require('cors');
+// const app = express();
+// const cors = require('cors');
 const router = express.Router();
 const Collection = require('../models/dataCollection');
 const client = new Collection();
 // console.log('made it to the routes page');
 // console.log('this is the collection', Collection);
 // console.log('this is the client', client);
-app.use(cors());
+// app.use(cors());
 
-app.use(function (req, res, next) {
+// app.use(function (req, res, next) {
 
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+//   res.setHeader('Access-Control-Allow-Credentials', true);
 
-  next();
-});
-const whitelist = ['http://localhost:3000', 'https://dina-cors-anywhere.herokuapp.com/https://tedashi-trained.herokuapp.com']
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
+//   next();
+// });
+// const whitelist = ['http://localhost:3000', 'https://dina-cors-anywhere.herokuapp.com/https://tedashi-trained.herokuapp.com']
+// var corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   }
+// }
 
 // const allowlist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com']
 // const corsOptionsDelegate = function (req, callback) {
@@ -42,12 +42,12 @@ var corsOptions = {
 //   callback(null, corsOptions) // callback expects two parameters: error and options
 // }
 console.log('Made it to API routes page!');
-
-router.get('/', cors(corsOptions), handleGetAll);
-router.get('/:id', cors(corsOptions), handleGetOne);
-router.post('/', cors(corsOptions), handleAdd);
-router.put('/:id', cors(corsOptions), handleUpdate);
-router.delete('/:id', cors(corsOptions), handleDelete);
+//cors(corsOptions), 
+router.get('/', handleGetAll);
+router.get('/:id', handleGetOne);
+router.post('/', handleAdd);
+router.put('/:id', handleUpdate);
+router.delete('/:id', handleDelete);
 
 async function handleGetAll(req, res) {
   console.log('made it in the get all function');

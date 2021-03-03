@@ -2,13 +2,13 @@
 
 const express = require('express');
 const app = express();
-// const cors = require('cors');
+const cors = require('cors');
 const morgan = require('morgan');
 require('./models/client');
 const mongoose = require('mongoose');
 const Client = mongoose.model('client');
 
-// app.use(cors());
+app.use(cors());
 app.use(morgan('dev'));
 
 // middleware
