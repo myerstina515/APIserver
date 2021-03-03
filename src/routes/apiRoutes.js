@@ -20,23 +20,34 @@ app.use(function (req, res, next) {
 
   next();
 });
-const allowlist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com']
-const corsOptionsDelegate = function (req, callback) {
-  let corsOptions;
-  if (allowlist.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
-  } else {
-    corsOptions = { origin: false } // disable CORS for this request
+const whitelist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
   }
-  callback(null, corsOptions) // callback expects two parameters: error and options
 }
+
+// const allowlist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com']
+// const corsOptionsDelegate = function (req, callback) {
+//   let corsOptions;
+//   if (allowlist.indexOf(req.header('Origin')) !== -1) {
+//     corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+//   } else {
+//     corsOptions = { origin: false } // disable CORS for this request
+//   }
+//   callback(null, corsOptions) // callback expects two parameters: error and options
+// }
 console.log('Made it to API routes page!');
 
-router.get('/', cors(corsOptionsDelegate), handleGetAll);
-router.get('/:id', cors(corsOptionsDelegate), handleGetOne);
-router.post('/', cors(corsOptionsDelegate), handleAdd);
-router.put('/:id', cors(corsOptionsDelegate), handleUpdate);
-router.delete('/:id', cors(corsOptionsDelegate), handleDelete);
+router.get('/', cors(corsOptions), handleGetAll);
+router.get('/:id', cors(corsOptions), handleGetOne);
+router.post('/', cors(corsOptions), handleAdd);
+router.put('/:id', cors(corsOptions), handleUpdate);
+router.delete('/:id', cors(corsOptions), handleDelete);
 
 async function handleGetAll(req, res) {
   console.log('made it in the get all function');
