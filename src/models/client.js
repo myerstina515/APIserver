@@ -6,7 +6,7 @@ const clientSchema = mongoose.Schema({
   emailAddress: {type: String, required: false},
   phoneNumber: {type: Number, required: false},
   trainingType:{type: String, required: false},
-  injury: {type: Boolean, required: false},
+  injury: {type: String, required: false},
   goals: {type: String, required: false},
   message: {type: String, required: false}
 })
