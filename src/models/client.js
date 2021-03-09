@@ -9,7 +9,7 @@ const clientSchema = mongoose.Schema({
   injury: {type: String, required: false},
   goals: {type: String, required: false},
   message: {type: String, required: false},
-  contacted: {type: String, require: false}
+  contacted: {type: Boolean, require: false}
 })
 
 const clientModel = mongoose.model('client', clientSchema);
