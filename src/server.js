@@ -21,42 +21,7 @@ const logger = require('./middleware/logger.js');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use(function (req, res, next) {
-
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-//   res.setHeader('Access-Control-Allow-Credentials', true);
-
-//   next();
-// });
-// const whitelist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com']
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }
-// }
-// var allowlist = ['http://localhost:3000', 'https://tedashi-trained.herokuapp.com']
-// var corsOptionsDelegate = function (req, callback) {
-//   var corsOptions;
-//   if (allowlist.indexOf(req.header('Origin')) !== -1) {
-//     corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
-//   } else {
-//     corsOptions = { origin: false } // disable CORS for this request
-//   }
-//   callback(null, corsOptions) // callback expects two parameters: error and options
-// }
-
-
-// app.get('/', (req, res) => {
-//   console.log('routes connected');
-// })
 app.use('/client', apiRoutes);
-//cors(corsOptionsDelegate), 
 app.use(logger);
 app.use('*', notFound);
 app.use(errorHandler);
