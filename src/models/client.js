@@ -2,8 +2,8 @@
 
 const mongoose = require('mongoose');
 const clientSchema = mongoose.Schema({
-  name: {type: String, required: true},
-  date: {type: String, required: true},
+  name: {type: String, required: false},
+  date: {type: String, required: false},
   emailAddress: {type: String, required: false},
   newsletter: {type: String, required: false},
   phoneNumber: {type: String, required: false},
