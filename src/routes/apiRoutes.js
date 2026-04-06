@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const Collection = require('../models/dataCollection');
 const client = new Collection();
+const { sendNotification } = require('../utils/mailer');
 
 
 router.get('/', handleGetAll);
@@ -35,11 +36,18 @@ async function handleGetOne(req, res) {
 async function handleAdd(req, res) {
  try {
   console.log('this is the request', req);
-    let obj = req.body;
-    let newRecord = await client.create(obj);
-    res.status(201).json(newRecord);
+    let inquiry = req.body;
+    let newRecord = await client.create(inquiry);
+    await sendNotification(req.body);
+    res.status(201).json({
+      message: 'Inquiry saved and email sent!',
+      record: newRecord
+    });
+    console.log('local test: email send successfully')
  } catch (e) {
-   throw new Error(e.message)
+   console.error('Error in handleAdd:', e.message);
+    // If anything fails (DB or Email), send the error once
+    res.status(500).json({ error: e.message });
  }
 }
 async function handleUpdate(req, res) {
